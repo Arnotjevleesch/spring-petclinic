@@ -1,4 +1,6 @@
 language: java
+services:
+  - docker
 jdk: oraclejdk8
 before_install:
   - echo $TRAVIS_COMMIT
@@ -6,3 +8,7 @@ before_install:
   - echo $TRAVIS_BRANCH
   - echo $TRAVIS_BUILD_NUMBER
   - echo $TRAVIS_REPO_SLUG
+
+after_script:
+  docker build -t petclic-$TRAVIS_BUILD_NUMBER .
+  docker images
