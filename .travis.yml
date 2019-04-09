@@ -10,5 +10,5 @@ before_install:
   - echo $TRAVIS_REPO_SLUG
 
 after_script:
-  docker build -t petclic-$TRAVIS_BUILD_NUMBER .
-  docker images
+  - docker build -t petclic-$TRAVIS_BUILD_NUMBER .
+  - docker images
