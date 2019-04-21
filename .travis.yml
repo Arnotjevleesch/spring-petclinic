@@ -4,7 +4,7 @@ env:
   global:
    # The next declaration is the encrypted COVERITY_SCAN_TOKEN, created
    #   via the "travis encrypt" command using the project repo's public key
-   - secure: "B3GymoO38qBxh8wTk6To4V22W0lf4bwVPnjMixTbyz3hWkEqDw7avkRvF7hbsKSz376WJj7fBKaDnvh8zMfkjlMVEAyKs5Ag4m4tQ5oD5tnEHsWrcJH77ToSi6TsE+y6H1TUiOGQrwguPgacQwDqnSfr2i8luwoweOWjroJC4n7AImUOkxiBIxzpWwnEctC0MIt3jiMUdcCyKZ2Ov0vYjw54kNR+pCDutxK+G1t6KgY4SVI4pqh/hQtQkuk3bD0j4C69rN1zaaDM80Fo2GL5Uzm+aQXPkFoySPFv3CbnQHEFlHNWHXrgCMWsRggXaviyC/y3XuwUudEOAQ1bnVHZx/tpPewMCXCLF48qxepV7mXyMlx8EDvO/cTZUM8rv3riwK9xL33gRtuC5SIzN4AVs5LaY+IPcjXC+1cr1B3jGKWuFpqzRmozGUXRrnJt+Vlh3T5hpShcgbo3JjHy2TXi2lzIcjjbUqUeVuVGZQHXSXTX/VuftkKjSZ+abcI8xMwo3dhBmNh8JvM2nUnEo7gcy1eaJwESxExBpgk8VMk6LhChGWVWqY/9L/O8COepAo1vbTNLvA5dydZjhRBvEiI4v2KGR0OAn0uoHPTFSzBLRThTZSLyUx16aq5RAJABz+S7K/0umzCmYO5iqQgcxmn8Tlgho6OwtauHyD8OgHf91hM="
+   - secure: "ZeFccmLmUj5SQn3vfdlNz8xObKGhWK/6GrIPZZQjkywwr4a0CUCFzy/RqazxutkBARRi6MojPG5ln0/4Z2VamEEMaf+6fGlKGBPFR6wfLZCjjT/p5gjCjoI/3n0Lg/XRYQeq8+ac5Cm1Xq40iQMlnvX7hVZ+zKH2mOMNEG6Z5tcRNgFnwn2UGcfCt+kgzl4amQK5cLaeScQNfhHG2kYwLkIq39QVM/N9B2W7MZha9rKy0Xx9KQmzgKJMgAkfs4nVN7VVMe0VN9LcloVo2rY+zI1udgnUFrc8pruLEF/2926NoWyLInZaWKKdQ0rENvo6jvDA8ktTQL6XLS2/7v8S4TBCvHglV0scpPSmj2XQJmta6IQUWgMHSPLqiOUvncLIJUWlIt+aEuF++K4Eu6mYQkeDH9udXtBqZkjm/bfaUaQuzPZRgzD9HFQiwvRDG8koT3jLDkTwBidzufwW28dEkdF07G+vDo6jAiGNSf+Q9qBRMVMQdnnSl1cUgrKtE8zZLkaQ3Cq4+NTDaHPhTtvk1K8fvgZs5gmDoZq4+CcXiZ3BOia3ou8ARpeoO6WmjdoVKUNWRD+VIPZq5f9v+C9MqcTUKpwhJxolMKicVLoxTy3eE3805nSZWv3fzQWExz17Y4LMgoEh3cJ6SLpyZgC0uQJv1YoIP03ztAVvLCJjpx8="
 
 services:
   - docker
@@ -19,13 +19,8 @@ before_install:
   - echo $TRAVIS_REPO_SLUG
   - echo -n | openssl s_client -connect https://scan.coverity.com:443 | sed -ne '/-BEGIN CERTIFICATE-/,/-END CERTIFICATE-/p' | sudo tee -a /etc/ssl/certs/ca-
 
+
 script:
-# - ./mvnw install -DskipTests=true -Dmaven.javadoc.skip=true -B -V
-# - ./mvnw test -B
-  - ./mvnw install -Dmaven.javadoc.skip=true -B -V
-
-
-after_script:
   - docker build -t petclic:$TRAVIS_BUILD_NUMBER .
   - docker images
 
