@@ -19,8 +19,9 @@ before_install:
   - echo $TRAVIS_REPO_SLUG
  
 script:
-  - docker build -t petclic:$TRAVIS_BUILD_NUMBER .
-  - docker images
+  - ls
+ # - docker build -t petclic:$TRAVIS_BUILD_NUMBER .
+ # - docker images
 
 addons:
   coverity_scan:
@@ -29,5 +30,5 @@ addons:
       description: ""
     notification_email: arnaud.ruant@gmail.com
     build_command_prepend: ""
-    build_command: "./mvnw install -Dmaven.javadoc.skip=true -B -V"
+    build_command: "ls"
     branch_pattern: master
