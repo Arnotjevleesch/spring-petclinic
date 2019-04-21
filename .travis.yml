@@ -1,14 +1,40 @@
 language: java
+
+env:
+  global:
+   # The next declaration is the encrypted COVERITY_SCAN_TOKEN, created
+   #   via the "travis encrypt" command using the project repo's public key
+   - secure: "B3GymoO38qBxh8wTk6To4V22W0lf4bwVPnjMixTbyz3hWkEqDw7avkRvF7hbsKSz376WJj7fBKaDnvh8zMfkjlMVEAyKs5Ag4m4tQ5oD5tnEHsWrcJH77ToSi6TsE+y6H1TUiOGQrwguPgacQwDqnSfr2i8luwoweOWjroJC4n7AImUOkxiBIxzpWwnEctC0MIt3jiMUdcCyKZ2Ov0vYjw54kNR+pCDutxK+G1t6KgY4SVI4pqh/hQtQkuk3bD0j4C69rN1zaaDM80Fo2GL5Uzm+aQXPkFoySPFv3CbnQHEFlHNWHXrgCMWsRggXaviyC/y3XuwUudEOAQ1bnVHZx/tpPewMCXCLF48qxepV7mXyMlx8EDvO/cTZUM8rv3riwK9xL33gRtuC5SIzN4AVs5LaY+IPcjXC+1cr1B3jGKWuFpqzRmozGUXRrnJt+Vlh3T5hpShcgbo3JjHy2TXi2lzIcjjbUqUeVuVGZQHXSXTX/VuftkKjSZ+abcI8xMwo3dhBmNh8JvM2nUnEo7gcy1eaJwESxExBpgk8VMk6LhChGWVWqY/9L/O8COepAo1vbTNLvA5dydZjhRBvEiI4v2KGR0OAn0uoHPTFSzBLRThTZSLyUx16aq5RAJABz+S7K/0umzCmYO5iqQgcxmn8Tlgho6OwtauHyD8OgHf91hM="
+
 services:
   - docker
+  
 jdk: oraclejdk8
+
 before_install:
   - echo $TRAVIS_COMMIT
   - echo $TRAVIS_TAG
   - echo $TRAVIS_BRANCH
   - echo $TRAVIS_BUILD_NUMBER
   - echo $TRAVIS_REPO_SLUG
+  - echo -n | openssl s_client -connect https://scan.coverity.com:443 | sed -ne '/-BEGIN CERTIFICATE-/,/-END CERTIFICATE-/p' | sudo tee -a /etc/ssl/certs/ca-
+
+script:
+# - ./mvnw install -DskipTests=true -Dmaven.javadoc.skip=true -B -V
+# - ./mvnw test -B
+  - ./mvnw install -Dmaven.javadoc.skip=true -B -V
+
 
 after_script:
   - docker build -t petclic:$TRAVIS_BUILD_NUMBER .
   - docker images
+
+addons:
+  coverity_scan:
+    project:
+      name: "Arnotjevleesch/spring-petclinic"
+      description: ""
+    notification_email: arnaud.ruant@gmail.com
+    build_command_prepend: ""
+    build_command: "./mvnw install -Dmaven.javadoc.skip=true -B -V"
+    branch_pattern: master
