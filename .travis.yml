@@ -1,11 +1,5 @@
 language: java
 
-env:
-  global:
-   # The next declaration is the encrypted COVERITY_SCAN_TOKEN, created
-   #   via the "travis encrypt" command using the project repo's public key
-   - secure: "ZeFccmLmUj5SQn3vfdlNz8xObKGhWK/6GrIPZZQjkywwr4a0CUCFzy/RqazxutkBARRi6MojPG5ln0/4Z2VamEEMaf+6fGlKGBPFR6wfLZCjjT/p5gjCjoI/3n0Lg/XRYQeq8+ac5Cm1Xq40iQMlnvX7hVZ+zKH2mOMNEG6Z5tcRNgFnwn2UGcfCt+kgzl4amQK5cLaeScQNfhHG2kYwLkIq39QVM/N9B2W7MZha9rKy0Xx9KQmzgKJMgAkfs4nVN7VVMe0VN9LcloVo2rY+zI1udgnUFrc8pruLEF/2926NoWyLInZaWKKdQ0rENvo6jvDA8ktTQL6XLS2/7v8S4TBCvHglV0scpPSmj2XQJmta6IQUWgMHSPLqiOUvncLIJUWlIt+aEuF++K4Eu6mYQkeDH9udXtBqZkjm/bfaUaQuzPZRgzD9HFQiwvRDG8koT3jLDkTwBidzufwW28dEkdF07G+vDo6jAiGNSf+Q9qBRMVMQdnnSl1cUgrKtE8zZLkaQ3Cq4+NTDaHPhTtvk1K8fvgZs5gmDoZq4+CcXiZ3BOia3ou8ARpeoO6WmjdoVKUNWRD+VIPZq5f9v+C9MqcTUKpwhJxolMKicVLoxTy3eE3805nSZWv3fzQWExz17Y4LMgoEh3cJ6SLpyZgC0uQJv1YoIP03ztAVvLCJjpx8="
-
 services:
   - docker
   
@@ -19,18 +13,15 @@ before_install:
   - echo $TRAVIS_BRANCH
   - echo $TRAVIS_BUILD_NUMBER
   - echo $TRAVIS_REPO_SLUG
- 
-script:
-  - ls
- # - docker build -t petclic:$TRAVIS_BUILD_NUMBER .
- # - docker images
 
 addons:
-  coverity_scan:
-    project:
-      name: "Arnotjevleesch/spring-petclinic"
-      description: ""
-    notification_email: arnaud.ruant@gmail.com
-    build_command_prepend: ""
-    build_command: "ls"
-    branch_pattern: master
+  sonarcloud:
+    organization: "arnotjevleesch-github" # the key of the org you chose at step #3
+    token:
+      secure: $SONAR # encrypted value of your token
+      
+script:
+  # other script steps might be done before running the actual analysis
+  - sonar-scanner
+ # - docker build -t petclic:$TRAVIS_BUILD_NUMBER .
+ # - docker images
