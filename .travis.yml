@@ -13,18 +13,28 @@ before_install:
   - echo $TRAVIS_BRANCH
   - echo $TRAVIS_BUILD_NUMBER
   - echo $TRAVIS_REPO_SLUG
-  - curl https://cli-assets.heroku.com/install.sh | sh
-  - heroku --version
 
 addons:
   sonarcloud:
     organization: "arnotjevleesch-github" # the key of the org you chose at step #3
     token:
       secure: $SONAR # encrypted value of your token
+
+jobs:
+  include:
+    - stage: quality
+      script:
+        - sonar-scanner
+    #- stage: build docker image
+    #  script:
+    #    - docker build -t petclic:$TRAVIS_BUILD_NUMBER .
+    - stage: deploy
+      jdk: oraclejdk8
+      script:
+        - curl https://cli-assets.heroku.com/install.sh | sh
+        - heroku --version
+        - heroku container:login
+        - heroku container:push web --app igci-petclinic
+        - heroku container:release web --app igci-petclinic
       
-script:
- # - sonar-scanner
- # - docker build -t petclic:$TRAVIS_BUILD_NUMBER .
- - heroku container:login
- - heroku container:push web --app igci-petclinic
- - heroku container:release web --app igci-petclinic
+
