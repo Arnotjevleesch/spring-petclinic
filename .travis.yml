@@ -22,7 +22,7 @@ addons:
       secure: $SONAR # encrypted value of your token
       
 script:
-  # other script steps might be done before running the actual analysis
-  - sonar-scanner
+ # - sonar-scanner
  # - docker build -t petclic:$TRAVIS_BUILD_NUMBER .
  # - docker images
+ - heroku container:login
