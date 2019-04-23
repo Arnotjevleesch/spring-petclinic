@@ -26,4 +26,4 @@ script:
  - docker build -t petclic:$TRAVIS_BUILD_NUMBER .
  - heroku container:login
  - heroku container:push petclic:$TRAVIS_BUILD_NUMBER --app igci-petclinic
- - heroku container:release petclic:$TRAVIS_BUILD_NUMBER --app igci-petclinic
+ - heroku container:release petclic:$TRAVIS_BUILD_NUMBER
