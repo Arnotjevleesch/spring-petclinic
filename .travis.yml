@@ -24,7 +24,7 @@ addons:
 #  - sonar-scanner
   #- docker build -t petclic:$TRAVIS_BUILD_NUMBER .
  # - curl https://cli-assets.heroku.com/install.sh | sh
-  #- heroku --version
+  #- heroku --version 
   #- heroku container:login
   #- heroku container:push web --app igci-petclinic
   #- heroku container:release web --app igci-petclinic
