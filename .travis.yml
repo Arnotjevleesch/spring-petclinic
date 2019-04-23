@@ -32,14 +32,14 @@ addons:
 stages:
   - test
   - quality
-  - name: deploy
+  - deployment
     if: language = oraclejdk8
 jobs:
   include:
     - stage: quality
       script:
         - sonar-scanner
-    - stage: deploy
+    - stage: deployment
       script:
         - curl https://cli-assets.heroku.com/install.sh | sh
         - heroku --version
