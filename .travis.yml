@@ -23,7 +23,7 @@ addons:
       
 script:
  # - sonar-scanner
- - docker build -t petclic:$TRAVIS_BUILD_NUMBER .
+ # - docker build -t petclic:$TRAVIS_BUILD_NUMBER .
  - heroku container:login
  - heroku container:push web --app igci-petclinic
  - heroku container:release web --app igci-petclinic
