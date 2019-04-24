@@ -33,7 +33,6 @@ stages:
   - test
   - quality
   - deploy
-    if: language = oraclejdk8
 jobs:
   include:
     - stage: quality
